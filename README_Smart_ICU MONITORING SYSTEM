@@ -1,0 +1,140 @@
+# 🏥 Smart ICU Monitoring System using IoT
+
+An IoT-based patient monitoring system that continuously measures vital parameters and uploads them to the cloud in real time, so doctors and caretakers can monitor patients remotely.
+
+![Platform](https://img.shields.io/badge/platform-ESP32-blue)
+![Cloud](https://img.shields.io/badge/cloud-ThingSpeak-green)
+![Status](https://img.shields.io/badge/status-prototype-orange)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
+
+---
+
+## 📌 Overview
+
+In an ICU, patients need constant observation. This project uses an **ESP32** microcontroller with biomedical and environmental sensors to measure heart rate, SpO₂, and temperature. Readings are shown locally on a **16x2 LCD** and sent over Wi-Fi to **ThingSpeak**, where they can be viewed as live graphs from anywhere.
+
+## ✨ Features
+
+- Real-time heart rate and SpO₂ monitoring
+- Temperature and pressure sensing
+- Local display on a 16x2 LCD
+- Wireless data upload to the ThingSpeak cloud
+- Live graphs and data logging for remote viewing
+- Low cost, compact, and easy to extend
+- Stable 5V supply using a 7805 voltage regulator
+
+## 🧰 Hardware Components
+
+| Component | Purpose |
+|---|---|
+| ESP32 | Main controller with built-in Wi-Fi |
+| MAX30102 | Heart rate and SpO₂ sensor |
+| BMP280 | Temperature and pressure sensor |
+| 16x2 LCD | Local display of readings |
+| 7805 voltage regulator | 5V power regulation |
+| Jumper wires, breadboard / PCB | Connections |
+
+## 💻 Software and Tools
+
+- Embedded C / Arduino IDE
+- ThingSpeak (IoT cloud platform)
+- Libraries: `WiFi.h`, `Wire.h`, `MAX30105.h`, `Adafruit_BMP280.h`, `LiquidCrystal.h`, `ThingSpeak.h`
+
+## ⚙️ System Architecture
+
+```
+ MAX30102 (HR, SpO₂) ─┐
+                      ├──▶  ESP32  ──▶ 16x2 LCD (local display)
+ BMP280 (Temp, Press)─┘       │
+                              ▼  Wi-Fi
+                         ThingSpeak Cloud
+                              │
+                              ▼
+                  Live graphs / Remote monitoring
+```
+
+> Add your block diagram image at `images/block_diagram.png` and it will show below.
+
+![Block Diagram](images/block_diagram.png)
+
+## 🔌 Pin Connections
+
+| Module | ESP32 Pin |
+|---|---|
+| MAX30102 SDA | GPIO 21 |
+| MAX30102 SCL | GPIO 22 |
+| BMP280 SDA | GPIO 21 |
+| BMP280 SCL | GPIO 22 |
+| LCD RS / EN / D4-D7 | Update as per your wiring |
+
+> MAX30102 and BMP280 share the same I2C bus. Edit pins to match your circuit.
+
+## 🔄 Working Principle
+
+1. The 7805 regulator supplies a stable 5V to the circuit.
+2. MAX30102 measures heart rate and SpO₂ using red and infrared light.
+3. BMP280 measures temperature and pressure.
+4. ESP32 reads and processes all sensor data.
+5. Values are shown on the 16x2 LCD.
+6. ESP32 connects to Wi-Fi and uploads data to ThingSpeak channel fields.
+7. Doctors and caretakers view live graphs on the ThingSpeak dashboard.
+
+## 🚀 Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/<your-username>/smart-icu-monitoring-system.git
+   ```
+2. **Install** the required libraries in Arduino IDE.
+3. **Create** a ThingSpeak channel with fields for Heart Rate, SpO₂, Temperature, and Pressure.
+4. **Edit** the credentials in the code:
+   ```c
+   const char* ssid = "YOUR_WIFI_NAME";
+   const char* password = "YOUR_WIFI_PASSWORD";
+   unsigned long channelID = YOUR_CHANNEL_ID;
+   const char* writeAPIKey = "YOUR_WRITE_API_KEY";
+   ```
+5. **Upload** the code to the ESP32.
+6. **Open** your ThingSpeak channel to view live data.
+
+> ⚠️ Never upload your real Wi-Fi password or API key to a public repo.
+
+## 📊 Results
+
+- Vital readings update on the LCD in real time
+- Data appears on ThingSpeak as live graphs
+
+![ThingSpeak Graph](images/thingspeak_graph.png)
+![Hardware Setup](images/hardware.jpg)
+
+## 🔮 Future Enhancements
+
+- Alert notifications (SMS / email / app) when readings cross safe limits
+- Additional sensors (ECG, blood pressure, respiration rate)
+- Mobile app for doctors
+- Data analytics and AI-based anomaly detection
+- Secure data transmission and patient authentication
+
+## ⚠️ Disclaimer
+
+This is an academic prototype and is **not a certified medical device**. Do not use it for real clinical decisions.
+
+## 📁 Project Structure
+
+```
+├── src/            # ESP32 source code
+├── images/         # Block diagram, hardware photo, ThingSpeak graph
+├── docs/           # Project report
+├── README.md
+└── LICENSE
+```
+
+## 👩‍💻 Author
+
+**Anushya Ramesh**
+B.E. Electronics and Communication Engineering
+Vivekanandha College of Engineering for Women, Tamil Nadu
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
